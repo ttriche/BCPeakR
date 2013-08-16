@@ -199,6 +199,12 @@ int main(int argc, char* argv[]) { // {{{
 
 	out1 = fopen(Seg_Results,"w"); // FIXME: output BED instead of BCP (BED5)
 
+
+	// FIXME: factor this out into a callable function, e.g.
+	//
+	// GRanges *BCP_eval( *ChIPRanges, *InputRanges, *options ) 
+	//
+	// presumably, this is where we want to start if using e.g. GRanges...
 	for(int i=N0; i<N; i++)
 	{
 
