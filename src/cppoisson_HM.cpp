@@ -1,22 +1,13 @@
-#include	<iomanip>
-#include	<fstream>
-#include	<cmath>
-#include	<iostream>
-#include	"./TNT/tnt.h"
-#include	"./MyFun/myFun.h"
-
 using namespace std;
 using namespace TNT;
 
-
 extern "C" {
 
-class cppoisson {
+class cppoisson 
+{ // {{{ method: BcmixSmooth();  public variable: estPara
 
   public:
     Vector<double>      estPara;
-    //cppoisson::cppoisson(Matrix<double>,double,double,double,int,int);
-    //cppoisson::~cppoisson(){};
     cppoisson(Matrix<double>,double,double,double,int,int);
     ~cppoisson(){};
 
@@ -33,7 +24,7 @@ class cppoisson {
     void    BcmixForward();
     void    BcmixBackward();
 
-}; /* end of -- class cppoisson */
+}; /* end of -- class cppoisson }}} */
 
 
 /* hyperprior: Gamma(alpha,beta), corresponding to my SS paper:
@@ -41,7 +32,7 @@ class cppoisson {
 */
 cppoisson::cppoisson(Matrix<double> obs1, double p1,
 	double alpha1, double beta1, int K1, int M1)
-{
+{ // {{{
   K=K1;	M=M1;  N=obs1.num_rows()-1;	p=p1;  alpha=alpha1;	beta=beta1;
   invbeta=1.0/beta;	log00=LogGamma(alpha)-alpha*log(invbeta);
   obs.newsize(N+1,4);	obs=obs1;
@@ -52,11 +43,11 @@ cppoisson::cppoisson(Matrix<double> obs1, double p1,
   fLog.newsize(N+1, K+1);	bLog.newsize(N+1, K+1);
   estPara.newsize(N+1);
   BcmixForward();               BcmixBackward();
-}
+} // }}}
 
 
 void cppoisson::BcmixSmooth()
-{
+{ // {{{
   double	total, logij, tmpmax;
   Vector<double>	tmpA(K+1);
   Matrix<double>	tmpAlpha(K+1,K+1),tmpIBeta(K+1,K+1),tmpB(K+1,K+1);
@@ -85,13 +76,12 @@ void cppoisson::BcmixSmooth()
   }
   for (int i=1;i<=K;i++)
     estPara[N]+=fQ[N][i]*falpha[N][i]/fIbeta[N][i];
-}
+} // }}}
 
 
 /****************** Beginning of prIbetaate functions **********************/
-
 void cppoisson::BcmixBackward()
-{
+{ // {{{
   int		s;
   Vector<double>        bQstar(K+2), numTmp(K+2);
   Vector<int>           tmpBackFil(K+2);
@@ -146,10 +136,11 @@ void cppoisson::BcmixBackward()
       bQ[t][i-1]=bQstar[i]*delta;
     }
   }
-}
+} // }}}
+
 
 void cppoisson::BcmixForward()
-{
+{ // {{{
   Vector<double>	fQstar(K+2), numTmp(K+2);
   Vector<int>		tmpForFil(K+2);
   Matrix<double>	tmpPost(K+2,4);
@@ -204,21 +195,17 @@ void cppoisson::BcmixForward()
       fQ[t][i-1]=fQstar[i]*delta;
     }
   }
-}
+} // }}}
+
 
 void    cppoisson::SubFun1(double &newalpha, double &newinvbeta,
 		double &newlog, double oldalpha, double oldinvbeta, 
 		double count,double length)
-{
+{ // {{{
   newalpha = oldalpha + (double)(length*count);
   newinvbeta = oldinvbeta + (double)(length);
   newlog = LogGamma(newalpha)-newalpha*log(newinvbeta);
-//  cout << "---" << newalpha << "-" << newinvbeta << "-" << LogGamma(newalpha)
-//       << "-" << log((double)newinvbeta) << "-" << log((double)65) << endl;
-//  printf("%lf %lf\n", newinvbeta, log(newinvbeta));
-}
-
+} // }}}
 /***************** End of prIbetaate functions ***************************/
-
 
 }

@@ -1,22 +1,12 @@
-
 #ifndef _myFun_IO_h
 #define _myFun_IO_h
 
-#include        <iostream>
-#include        <fstream>
-#include        <cassert>
-#include        "../TNT/tnt.h"
-#include        "../JAMA_C/my_jama_cholesky.h"
-#include        "../JAMA_C/my_jama_lu.h"
-
 using namespace std;
 using namespace TNT;
-using namespace JAMA;
-
 
 template <class T>
 static void      ReadValue(string  filename, T &numSub)
-{
+{ // {{{
   ifstream        infile;  
   infile.open( filename.c_str() );
   if (!infile)    {
@@ -25,13 +15,11 @@ static void      ReadValue(string  filename, T &numSub)
   }
   while (infile.good()) infile >> numSub;
   infile.close();
-}
+} // }}}
 
-/* This function reads the vector into a file.
- */
-template <class T>
+template <class T> // reads a vector into a file
 static void   ReadVector(string filename, Vector<T> &vec)
-{
+{ // {{{
   ifstream        infile;
   int             i=0;
   infile.open( filename.c_str() );
@@ -41,10 +29,10 @@ static void   ReadVector(string filename, Vector<T> &vec)
   }
   while (infile.good())   infile >> vec[i++];
   infile.close();
-}
+} // }}}
 
 Matrix<double>   ReadMatrix(string filename)
-{
+{ // {{{ 
   ifstream        infile;
   infile.open( filename.c_str() );
   if (!infile) {
@@ -61,11 +49,10 @@ Matrix<double>   ReadMatrix(string filename)
 
   infile.close();
   return mat;
-}
-
+} // }}}
 
 Array3D<double>  ReadArray3D(string filename)
-{
+{ // {{{
   ifstream  infile;
   infile.open( filename.c_str() );
   if (!infile) {
@@ -81,14 +68,11 @@ Array3D<double>  ReadArray3D(string filename)
       for(int k=0; k<dim3; k++)  infile >> arr3d[i][j][k];
   infile.close();
   return arr3d;
-}
+} // }}}
 
-/* This function writes the vector into a file.
- */
-
-template <class T>
+template <class T> // writes the vector into a file
 static void   WriteVector(string filename, const Vector<T> &vec)
-{
+{ // {{{
   ofstream        outfile;
 
   outfile.open( filename.c_str() );
@@ -98,14 +82,11 @@ static void   WriteVector(string filename, const Vector<T> &vec)
   }
   for (int i=0; i<vec.size(); i++)    outfile << vec[i] << "\n";
   outfile.close();
-}
+} // }}}
 
-/* This function writes a matrix into a file.
- */
-
-template <class T>
+template <class T> // as above but for a matrix
 static void   WriteMatrix(string filename, const Matrix<T> mat)
-{
+{ // {{{ 
   ofstream        outfile;
   
   outfile.open( filename.c_str() );
@@ -119,11 +100,11 @@ static void   WriteMatrix(string filename, const Matrix<T> mat)
     outfile << "\n";
   }
   outfile.close();
-}
+} // }}}
 
 template <class T>
 static void   WriteArray3D(string filename, const Array3D<T> &arr3d)
-{
+{ // {{{
   ofstream        outfile;
   
   outfile.open( filename.c_str() );
@@ -140,34 +121,29 @@ static void   WriteArray3D(string filename, const Array3D<T> &arr3d)
     }
     outfile << "\n" << endl;
   }
-}
+} // }}}
 
-/* Initialze vectors, matrices, and arrays */
 template <class T>
 static void     Initialize(Vector<T>  &vec)
-{
+{ // {{{
   T   zero=vec[0]-vec[0];
   for (int i=0; i<vec.dim(); i++)   vec[i] = zero;
-}
+} // }}}
 
 template <class T>
 static void     Initialize(Matrix<T>  &mat)
-{
+{ // {{{
   T   zero=mat[0][0]-mat[0][0];
   for (int i=0; i<mat.num_rows(); i++) for(int j=0;j<mat.num_cols();j++)
     mat[i][j] = zero;
-}
-
+} // }}}
 
 template <class T>
 static void     Initialize(Array3D<T>  &arr)
-{
+{ // {{{
   T  zero=arr[0][0][0]-arr[0][0][0];
   for (int i=0; i<arr.dim1(); i++)  for(int j=0; j<arr.dim2(); j++)
     for (int k=0; k<arr.dim3(); k++)     arr[i][j][k] = zero;
-}
-
+} // }}}
 
 #endif
-
-

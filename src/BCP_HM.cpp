@@ -1,22 +1,27 @@
 #include	<iostream>
+#include	<iomanip>
 #include	<fstream>
+#include  <cassert>
 #include	<string>
 #include	<vector>
 #include	<map>
 #include	<cmath>
 #include	<iomanip>
+#include 	<algorithm>
 #include	<stdlib.h>
 #include	<stdio.h>
 #include	<unistd.h>
-// FIXME: hideous
-#include  "./TNT/tnt.h"
-#include  "./MyFun/myFun.h"
+#include  "TNT/tnt.h"
+#include  "functions_IO.h"
+#include	"functions_LU.h"
+#include	"functions_Cholesky.h"
+#include  "functions_Math.h"
 #include  "cppoisson_HM.cpp"
 
 #define   MINARGS 3
 
-using namespace std; // hideous
-using namespace TNT; // hideous
+using namespace std;
+using namespace TNT;
 
 int num_win,num_data_frag,num_input_frag,num_seg,num_allseg;
 double len_bf,len_aft,sum_bf,sum_aft,average_bf,average_aft,cutline;
@@ -116,7 +121,7 @@ int main(int argc, char* argv[]) { // {{{
 
 	ifstream fin(filename.c_str());
 	if(!fin.is_open()){
-		cout<<"The file "<<filename<<" doesn't exit."<<endl;
+		cout<<"The file "<<filename<<" doesn't exist."<<endl;
 		exit(1);
 	}
 
@@ -333,7 +338,7 @@ int main(int argc, char* argv[]) { // {{{
 			}
 			average_aft =sum_aft/len_aft;
 
-      // FIXME: fugly
+      // FIXME: terrifying
 			for(m=1;m<num_win;m++){
 				if((obs[m][2]==0)&&(obs[m][3]==1)&&((obs[m-1][2]!=0)||(obs[m+1][2]!=0)))
           obs[m][3]=0;
