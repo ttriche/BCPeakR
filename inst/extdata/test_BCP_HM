@@ -1,0 +1,25 @@
+IP_BED="CD34_MBP1549.H3K36me3.RO_01549.hg19.bed"
+INPUT_BED="CD34_MBP1549.Input.RO_01549.hg19.bed"
+PEAKS_BED="CD34_MBP1549.H3K36me3.chr22.peaks.hg19.bed"
+
+echo -n "Compiling the command-line version of the program..."
+g++ -O2 ../../src/BCP_HM.cpp -o BCP_HM
+echo "...done."
+
+echo -n "Unzipping H3K36me3 and matching input files..."
+gunzip $IP_BED.gz
+gunzip $INPUT_BED.gz
+echo "...done."
+
+echo -n "Running the command-line program as"
+echo ""
+echo "    ./BCP_HM -1 $IP_BED -2 $INPUT_BED -3 $PEAKS_BED "
+./BCP_HM -1 $IP_BED -2 $INPUT_BED -3 $PEAKS_BED > /dev/null 2>&1 
+echo ""
+echo "...done.  Look in $PEAKS_BED for the peak calls."
+
+echo ""
+echo -n "Recompressing the BED files to save a little space..."
+gzip $IP_BED
+gzip $INPUT_BED
+echo "...done."
