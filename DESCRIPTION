@@ -1,9 +1,9 @@
 Package: BCPeakR
 Type: Package
 Title: Bayesian Change Point model for diffuse histone marks
-Version: 0.2
+Version: 0.3
 Date: 2013-08-16
-Depends: Rcpp, RcppProgress
+Depends: Rcpp, RcppProgress, GenomicRanges, rtracklayer
 Author: Yifan Mo, Wiley Liao, Haipeng Xing (original), Tim Triche, Jr. (wrapper)
 Maintainer: Tim Triche, Jr. <tim.triche@gmail.com>
 Description: BCP, updated and wrapped in R.
