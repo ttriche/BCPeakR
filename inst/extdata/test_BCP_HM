@@ -11,14 +11,15 @@ gunzip $IP_BED.gz
 gunzip $INPUT_BED.gz
 echo "...done."
 
-echo -n "Running the command-line program as"
+echo "Running the command-line program as"
 echo ""
-echo "    ./BCP_HM -1 $IP_BED -2 $INPUT_BED -3 $PEAKS_BED "
+echo "./BCP_HM -1 $IP_BED \"
+echo "         -2 $INPUT_BED \"
+echo "         -3 $PEAKS_BED"
+echo ""
 ./BCP_HM -1 $IP_BED -2 $INPUT_BED -3 $PEAKS_BED > /dev/null 2>&1 
-echo ""
 echo "...done.  Look in $PEAKS_BED for the peak calls."
 
-echo ""
 echo -n "Recompressing the BED files to save a little space..."
 gzip $IP_BED
 gzip $INPUT_BED
